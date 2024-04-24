@@ -944,6 +944,8 @@ class Gurobi(PersistentSolverUtils, PersistentSolverBase):
                 )
         timer.stop('load solution')
 
+        print('==== SETTING THE BASIS ====')
+
         # set the VBasis and CBasis for warmstart of LP (not MIP)
         t = gprob.getAttr("VBasis", gprob.getVars())
         for var, bas in zip(gprob.getVars(), t):
