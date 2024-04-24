@@ -955,6 +955,16 @@ class Gurobi(PersistentBase, PersistentSolver):
                 )
         timer.stop('load solution')
 
+        print('=== SETTING THE BASIS ===')
+        # set the VBasis and CBasis for warmstart of LP (not MIP)
+        t = gprob.getAttr("VBasis", gprob.getVars())
+        for var, bas in zip(gprob.getVars(), t):
+            var.VBasis = bas
+        s = gprob.getAttr("CBasis", gprob.getConstrs())
+        for var, bas in zip(gprob.getConstrs(), s):
+            var.CBasis = bas
+
+
         return results
 
     def _load_suboptimal_mip_solution(self, vars_to_load, solution_number):
